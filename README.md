@@ -17,7 +17,6 @@ Their comparison was between sessions, before and after learning. We looked insi
 ## My part
 
 - **Data pipeline**, `code/data.py`. It pulls the release from the Figshare API, checks every file against its published checksum, and loads sessions, frames, trials and neurons into DuckDB, so any question about the experiment is one SQL query. Neural activity stays in the release's compressed SVD form and is rebuilt on demand for any block of neurons and frames.
-- **Plotting library**, `code/plot.py`. One function per figure. Each takes tidy data and returns a matplotlib figure in one shared style, so the notebooks hold analysis rather than plotting code.
 - **Within-session d′ analysis.** `notebooks/dprime-original.ipynb` is the notebook I wrote during the course. `notebooks/dprime.ipynb` is the same analysis rebuilt on the data pipeline and plotting library, for all 26 sessions and each visual area.
 
 ## Method
