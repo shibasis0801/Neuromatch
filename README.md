@@ -6,7 +6,7 @@ My group project from the Neuromatch Academy course in Computational Neuroscienc
 
 Zhong et al. (2025) recorded about 70,000 neurons at once across mouse visual cortex while mice ran through two virtual corridors, one with leaf and one with circle wall textures. Supervised mice got a sugar-water reward in the leaf corridor. Unsupervised mice saw the same corridors with no reward. Most of the change in visual representations happened in both groups, so it did not need reward.
 
-Their comparison was between sessions, before and after learning. We looked inside sessions. For each neuron, d′ measures how well its activity separates leaf from circle. We followed the distribution of d′ across the population as a session goes on:
+Their comparison was between sessions, before and after learning. At Tomoya Kubota's suggestion, we looked inside sessions. For each neuron, d′ measures how well its activity separates leaf from circle. We followed the distribution of d′ across the population as a session goes on:
 
 | | Statistic | Hypothesis |
 |---|---|---|
@@ -16,8 +16,8 @@ Their comparison was between sessions, before and after learning. We looked insi
 
 ## My part
 
-- **Data pipeline**, `code/data.py`. It pulls the release from the Figshare API, checks every file against its published checksum, and loads sessions, frames, trials and neurons into DuckDB, so any question about the experiment is one SQL query. Neural activity stays in the release's compressed SVD form and is rebuilt on demand for any block of neurons and frames.
-- **Within-session d′ analysis.** `notebooks/dprime-original.ipynb` is the notebook I wrote during the course. `notebooks/dprime.ipynb` is the same analysis rebuilt on the data pipeline and plotting library, for all 26 sessions and each visual area.
+- **Within-session d′ analysis.** `notebooks/dprime-original.ipynb` is the notebook I wrote during the course. `notebooks/dprime.ipynb` is the same analysis rebuilt on the data pipeline and Janviere Yau's plotting library, for all 26 sessions and each visual area.
+- **Data pipeline**, `code/data.py`. It pulls the release from the Figshare API, checks every file against its published checksum, and loads sessions, frames, trials and neurons into DuckDB, so any question about the experiment is one SQL query. The DuckDB layout follows the one Shibasis Patnaik set up for our group. Neural activity stays in the release's compressed SVD form and is rebuilt on demand for any block of neurons and frames.
 
 ## Method
 
@@ -26,7 +26,7 @@ Their comparison was between sessions, before and after learning. We looked insi
 - A trial is one pass through a corridor's texture zone. Only frames where the mouse is moving count, and a trial needs at least 3 of them. The i-th leaf trial is paired with the i-th circle trial.
 - In each window of 20 trial pairs, sliding one pair at a time, every neuron gets d′ = 2(μ_leaf − μ_circle) / (σ_leaf + σ_circle).
 - In each window I summarise the population: median, standard deviation and skewness of d′, the fraction of leaf-selective (d′ ≥ 0.3) and circle-selective (d′ ≤ −0.3) neurons, and running speed. I do this for all neurons and separately for V1 and the medial, lateral and anterior higher visual areas.
-- As a group we then fitted generalized additive mixed models (GAMMs) to these trajectories. As a bonus, we trained ridge models on the unsupervised mice to predict supervised mice's after-learning statistics from their before-learning state, with leave-one-mouse-out validation.
+- Rui Zheng then fitted generalized additive mixed models (GAMMs) to these trajectories. As a bonus, we trained ridge models on the unsupervised mice to predict supervised mice's after-learning statistics from their before-learning state, with leave-one-mouse-out validation.
 
 ## Results
 
@@ -65,7 +65,7 @@ Run `data.ipynb` first. The first run downloads about 4.3 GiB to `~/zhong2025`: 
 
 ## Team
 
-Group Ratatouille, pod Tokoloshe Black Cumin: Grace Antony, Aditi Kailkhura, Saloni Komal, Tomoya Kubota, Mira Malekon, Shibasis Patnaik, Tanya Sharma, Maria Shaukat, Janviere Yau and Rui Zheng. Teaching assistants: Lina Alqam and Amalya Hakobyan. The sliding-window d′ follows the definition Rui Zheng set out for the group.
+Group Ratatouille, pod Tokoloshe Black Cumin: Grace Antony, Aditi Kailkhura, Saloni Komal, Tomoya Kubota, Mira Malekon, Shibasis Patnaik, Tanya Sharma, Maria Shaukat, Janviere Yau and Rui Zheng. Teaching assistants: Lina Alqam and Amalya Hakobyan.
 
 ## Data and references
 
